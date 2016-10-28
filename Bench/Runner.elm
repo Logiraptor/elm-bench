@@ -1,4 +1,13 @@
-module Runner exposing (..)
+module Bench.Runner exposing (app, Example, Suite)
+
+{-|
+Runner makes it easier to run sets of benchmarks with the Bench
+package.
+
+#Core API
+@docs app, Example, Suite
+
+-}
 
 import Bench
 import Html
@@ -8,10 +17,17 @@ import Time
 import Task
 
 
+{-|
+Example is a named Bench.Action. The name is rendered in the final result ui.
+
+-}
 type alias Example a =
     ( String, Bench.Action a )
 
 
+{-|
+Suie defines a set of examples to run in the app.
+-}
 type alias Suite a =
     List (Example a)
 
@@ -25,6 +41,12 @@ type Msg a
     | Start (Suite a)
 
 
+{-|
+app creates a program which runs the provided benchmarks and renders the result
+
+    Runner.app [("Old Implementation", (Bench.repeat testfunc)), ("New Implementation", (Bench.repeat testfunc2))]
+
+-}
 app : Suite a -> Program Never
 app suite =
     App.program
