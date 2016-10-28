@@ -100,11 +100,14 @@ repeat makes it easy to turn any function into an Action.
 -}
 repeat : (() -> a) -> Action ()
 repeat f n =
-    let
-        _ =
-            List.map (\i -> f ()) [0..n]
-    in
+    if n <= 0 then
         ()
+    else
+        let
+            _ =
+                f ()
+        in
+            repeat f (n - 1)
 
 
 
